@@ -1,0 +1,35 @@
+version: '3'
+services:
+  frontend:
+    image: frontend:latest
+    environment:
+      PORT: 5000
+      REACT_APP_BACKEND_URL: localhost:8080
+      PROXY_API: http://localhost:8080/
+    ports:
+      - 5000:5000
+  backend:
+    image:  backend:latest
+    environment:
+      PORT: 8080
+      REQUEST_ORIGIN: localhost:5000
+      PROXY_API: http://localhost:5000/
+    ports:
+      - 8080:8080
+  redis:
+    image: redis
+    restart: unless-stopped
+    volumes: 
+        - ./redis_data:/data
+    enviroment:
+        - REDIS_HOST=6379
+    
+  database:
+    image: postgres
+    restart: unless-stopped
+    environment: 
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgress
+        - POSTGRES_DATABASE=postgress
+        volumes: 
+          - ./database:/postgresql/data
