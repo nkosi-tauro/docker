@@ -1,0 +1,12 @@
+version: '3.5'
+
+services: 
+  coursematerial:
+    image: nkositauro/node-jwt-template
+    build: .
+
+  watchtower:
+    image: containr/watchtower
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+    container_name: watchtower
